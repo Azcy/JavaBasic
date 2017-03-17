@@ -14,6 +14,8 @@
 
 2、非静态内部类不能拥有静态成员。
 
+外部类只能有public或者默认（default）
+
 ### 非静态内部类
 	public class Test
 	{
@@ -83,3 +85,13 @@ public class Test
 	
 
 }
+
+### 在外部类以为使用非静态内部类
+在外部类以为的地方定义内部类（包括静态和非静态两种）变量的格式如下：
+
+	OuterClass.InnerClass varName
+**如果外部类有包名，则应该添加包名的前缀。**
+
+在外部类以为的地方创建非静态内部类实例的语法如下：
+
+	OuterInstance.new InnerConstructor()
