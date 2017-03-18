@@ -95,3 +95,53 @@ public class Test
 在外部类以为的地方创建非静态内部类实例的语法如下：
 
 	OuterInstance.new InnerConstructor()
+
+### 例如：
+	class Out
+	{
+		//定义一个内部类，不用控制符 define a innerclass ,and cant‘t use controls
+		//即有同一个包中的其他类可以访问该内部类
+		Class In
+		{
+			public In(String msg)
+			{
+				System.out.println(msg);
+			}
+		}
+	}
+	
+	public class CreateInnerInstance
+	{
+		public static void main(String[] args)
+		{
+			//调用同一个包中的内部类
+			Out.In in=new Out().new In("测试信息");
+			/*
+			可以拆分为
+			适用OuterClass.InnerClass的形式定义内部类变量
+			Out.In in;
+			创建外部类实例，非静态内部类实例将寄生在该实例中
+			Out out=new Out();
+			通过外部类实例和new来调用内部类钩子器创建非静态内部类实例
+			in=out.new In("测试信息");
+			*/
+		}
+	}
+***注意：非静态内部类的构造器必须通过外部类对象来调用。***
+
+
+### 创建非静态内部类子类的子类
+
+必须保证让子类构造器可以调用非静态内部类的构造器，调用非静态内部类的构造器时，必须存在一个内部类对象。
+
+	public class SubClass extends Out.In
+	{
+		//显示定义SubClass的构造器
+		public SubClass(Out out)
+		{
+			//通过传入的Out对象显示调用In的构造器
+			Out.super("Hello");
+		}
+	}
+
+### 注意：非静态内部类的子类不一定是内部类，它可以是一个外部类。
