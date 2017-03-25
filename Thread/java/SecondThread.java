@@ -40,9 +40,14 @@ public class SecondThread implements Runnable
 			{
 				SecondThread st=new SecondThread();
 				//通过 new Thread(target,name)方法来创建新线程
-				new Thread(st,"新线程1").start();
+				//new Thread(st,"新线程1").start();
 				//创建并启动第二个线程
-				new Thread(st,"新线程2").start();
+				//new Thread(st,"新线程2").start();
+				//或者通过以下形式来创建线程
+					Thread t1=new Thread(new SecondThread());
+					//设置线程的名称
+					t1.setName("新线程1");
+					t1.start();
 			}
 		}
 		
