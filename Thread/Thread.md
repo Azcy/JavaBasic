@@ -420,12 +420,7 @@ Thread类提供了setPriority(int newPriority)、getPriority()方法来设置和
 3. 在队列头部取出但不删除元素。包括element()和peek()方法，当队列已空时，这两个方法分别抛出异常、返回false。
 
 **BlockingQueue包含的方法之间的对应关系如表**
-
-|            /    | 抛出异常	    | 不同返回值  |	阻塞线程|指定超时时长|
-| ------------- |:-------------:| -----:|
-| 队尾插入元素   |add(e) 	|offer(e) |put(e)| off(e,time,unit)|
-| 队尾删除元素   |remove()       |   poll() |  take()|poll(time,unit)
-| 获取、不删除元素 | element()      |    peek() |无|无
+![](https://github.com/Azcy/JavaBasic/blob/master/Thread/image/%E8%A1%A8%E6%A0%BC.jpg)
 
 ----------
 **具体例子：**
