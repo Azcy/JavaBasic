@@ -208,3 +208,8 @@ URL对应的方法：
 6. String getQuery():获取该URL的查询字符串部分
 7. URLConnection openConnection():返回一个URLConnection对象，它代表了与URL所引用的远程对象的连接
 8. InputStream openStream(): 打开与此URL的连接，并返回一个用于读取该URL资源的InputStream
+
+
+## 三、基于TCP协议的网络编程
+TCP/IP通信协议是一种可靠的网络协议，它在通信的两端各建立一个Socket,从而在通信的两端之间形成网络虚拟链路。一旦建立了虚拟的网络链路，两端的程序就可以通过虚拟链路进行通信。Java使用Socket对象来代表两端的通信接口，并通过Socket产生IO流来进行网络通信。
+### 
