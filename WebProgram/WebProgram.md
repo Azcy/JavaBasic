@@ -50,7 +50,11 @@ Internet可以视为世界上最大的广域网。
 2. 语法部分，用于决定双方对话的格式；
 3. 变换规则，用于决定通信双方的应答关系；
 
-#### 开发系统互连参考模型(OSI)把计算机网络分为：
+### 网络参考模型
+![](https://github.com/Azcy/JavaBasic/blob/master/WebProgram/image/网络参考模型.jpg)
+
+
+#### 开发系统互连参考模型(OSI)（Open System Interconnection ）把计算机网络分为：
 1. 物理层
 2. 数据链路层
 3. 网络层
@@ -60,6 +64,12 @@ Internet可以视为世界上最大的广域网。
 7. 应用层
 
 
+![](https://github.com/Azcy/JavaBasic/blob/master/WebProgram/image/OSI参考模型.jpg)
+
+### 网络通讯的要素
+1. ip地址
+2. 端口号
+3. 传输协议
 
 
 ### 2.协议
@@ -71,8 +81,20 @@ Internet可以视为世界上最大的广域网。
 #### IP协议：
 IP（Internet Protocol）协议又称为互联网协议，是支持网间互联的数据报协议。
 
+#### UDP协议（用户数据报协议）：（对讲机，qq，视频聊天）
+1. 将数据及源河目的封装成数据包中，不需要建立连接
+2. 每个数据报的大小在限制在64k内
+3. 因无连接，是不可靠协议
+4. 不需要建立连接，速度快
+
+
 #### TCP协议：
 TCP(Transmission Control Protocol)协议，即传输控制协议，它规定一种可靠的数据信息传递服务。
+
+1. 建立连接，形成传输数据的通道
+2. 在连接中进行数据量传输
+3. 通过三次握手完成连接，是可靠协议
+4. 必须建立连接，效率会稍低 
 
 #### TCP/IP的分层模型
 ![](https://github.com/Azcy/JavaBasic/blob/master/WebProgram/image/OSITCPIP.png)
@@ -80,8 +102,10 @@ TCP(Transmission Control Protocol)协议，即传输控制协议，它规定一�
 ----------
 
 ### 3.IP地址和端口号
-#### Ip地址
+#### Ip地址（InetAdress）
 ip地址用于唯一地标识网络中的一个通信实体，这个通信实体既可以是一台主机也可以是一台打印机，或者是路由器的某个端口。而在基于ip协议网络中传输的数据包，都必须使用ip地址来进行标识。
+
+本地回环地址：127.0.0.1 主机名：localhost 
 
 #### IP地址分类
 A类:1.0.0.0~126.255.255.255,默认子网掩码/8,即255.0.0.0 (其中127.0.0.0~127.255.255.255为环回地址,用于本地环回测试等用途)；
@@ -105,6 +129,8 @@ IPv4中还有一种私有地址,即比如内部局域网所用的地址,分别�
 
 #### 端口
 端口是一个16位的整数，用于表示数据交给哪个通信程序处理。因此，端口就是应用程序与外界交流的入口，它是一种抽象的软件结构，包括一些数据结构和I/O（基本输入/输出）缓冲区。
+
+有效端口：0～65535，其中0～1024系统使用或保留端口。
 
 #### 端口号可以从0到65535，通常将它分为三类
 1. 公认端口（Well Known Ports）:从0到123，它们紧密绑定（Binding）一些特定的服务。
@@ -142,7 +168,7 @@ InetAddress提供如下方法：
 		public static void main(String[] args) throws Exception
 		{
 			//根据主机名来获取对应的InetAddress实例
-			InetAddress ip=InetAddress.getByName("zcy");
+			InetAddress ip=InetAddress.getByName("zcy");//InetAddress ip=InetAddress.getByName("192.168.1.100")
 			//判断是否可达
 			System.out.println("creazyit是否可达："+ip.isReachable(2000));
 			//获取InetAddress实例的ip字符串
@@ -212,4 +238,67 @@ URL对应的方法：
 
 ## 三、基于TCP协议的网络编程
 TCP/IP通信协议是一种可靠的网络协议，它在通信的两端各建立一个Socket,从而在通信的两端之间形成网络虚拟链路。一旦建立了虚拟的网络链路，两端的程序就可以通过虚拟链路进行通信。Java使用Socket对象来代表两端的通信接口，并通过Socket产生IO流来进行网络通信。
-### 
+
+###  Socket（通讯的两个端点，例如，运输两个港口）
+1. socket就是为网络服务提供的一种机制。
+2. 通信的两端都有Socket
+3. 网络通信其实就是Socket间的通信
+4. 数据在两个Socket间通过IO传输
+
+### UDP传输协议(java：DatagramSocket)
+1. DatagramSocket与DatagramPacket
+2. 建立发送端，接收端
+3. 建立数据包
+4. 调用Socket的发送接收方法
+5. 关闭Socket
+
+
+
+#### 实例
+发送端与接收端上两个独立的运行程序
+
+**发送端：**
+
+	 //1.udpsocket服务，使用DatagramSocket对象。
+    DatagramSocket ds=new DatagramSocket();
+
+    //2.将要发送的数据封装到数据包中
+    String str="udp传输演示：哥们来了！";
+
+    //使用Datagrampacket将数据封装到该对象包中。
+    byte[] buf=str.getBytes();
+
+    DatagramPacket dp=new DatagramPacket(buf,buf.length,InetAddress.getByName("192.168.31.127"),10000);
+
+    //3.通过udp的socket服务将数据包发送出去。使用sends方法
+    ds.send(dp);
+
+[**详细代码**](https://github.com/Azcy/JavaBasic/blob/master/WebProgram/java/UDPSendDemo.java)
+
+**接收端：**
+
+	  //1.建立udp socket服务
+     DatagramSocket ds=new DatagramSocket(10000);
+     
+      //2.创建数据包
+      byte[] buf=new byte[1024];
+      
+      //3.使用接收方法将数据存储到数据包中
+      DatagramPacket  dp=new DatagramPacket(buf,buf.length);
+
+      ds.receive(dp); //阻塞式
+
+    //4.通过数据包的方法对象的方法，解析其中的数据，比如，地址，端口，数据内容
+    String ip=dp.getAddress().getHostAddress();
+    int port=dp.getPort();
+    String text=new String(dp.getData(),0,dp.getLength());
+    System.out.println(ip+":"+port+":"+text);
+
+    //关闭资源
+    ds.close();
+[**详细代码**](https://github.com/Azcy/JavaBasic/blob/master/WebProgram/java/UDPReceDemo.java)
+
+
+
+
+
